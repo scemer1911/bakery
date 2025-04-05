@@ -1,0 +1,644 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище ПекарняModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Единица_измерения">
+          <Key>
+            <PropertyRef Name="ID_Единицы" />
+          </Key>
+          <Property Name="ID_Единицы" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Заказы">
+          <Key>
+            <PropertyRef Name="ID_Заказа" />
+          </Key>
+          <Property Name="ID_Заказа" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Пользователя" Type="int" Nullable="false" />
+          <Property Name="Дата_заказа" Type="datetime" />
+          <Property Name="Статус" Type="nvarchar" MaxLength="20" />
+          <Property Name="Сумма" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Категория">
+          <Key>
+            <PropertyRef Name="ID_Категории" />
+          </Key>
+          <Property Name="ID_Категории" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Номенклатура">
+          <Key>
+            <PropertyRef Name="ID_Номенклатуры" />
+          </Key>
+          <Property Name="ID_Номенклатуры" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Цена_за_единицу" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ID_Категории" Type="int" Nullable="false" />
+          <Property Name="ID_Единицы" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="ID_Пользователя" />
+          </Key>
+          <Property Name="ID_Пользователя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Пароль_Хэш" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ID_Роли" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Продажи">
+          <Key>
+            <PropertyRef Name="ID_Продажи" />
+          </Key>
+          <Property Name="ID_Продажи" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Заказа" Type="int" Nullable="false" />
+          <Property Name="Дата_продажи" Type="datetime" />
+          <Property Name="Общая_сумма" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Роли">
+          <Key>
+            <PropertyRef Name="ID_Роли" />
+          </Key>
+          <Property Name="ID_Роли" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Состав_заказа">
+          <Key>
+            <PropertyRef Name="ID_Состава" />
+          </Key>
+          <Property Name="ID_Состава" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Заказа" Type="int" Nullable="false" />
+          <Property Name="ID_Номенклатуры" Type="int" Nullable="false" />
+          <Property Name="Количество" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Цена_на_момент_заказа" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Сумма_позиций" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Заказы__ID_Польз__6FE99F9F">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Заказы" Type="Self.Заказы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="ID_Пользователя" />
+            </Principal>
+            <Dependent Role="Заказы">
+              <PropertyRef Name="ID_Пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Номенклат__ID_Ед__6A30C649">
+          <End Role="Единица_измерения" Type="Self.Единица_измерения" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Номенклатура" Type="Self.Номенклатура" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Единица_измерения">
+              <PropertyRef Name="ID_Единицы" />
+            </Principal>
+            <Dependent Role="Номенклатура">
+              <PropertyRef Name="ID_Единицы" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Номенклат__ID_Ка__693CA210">
+          <End Role="Категория" Type="Self.Категория" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Номенклатура" Type="Self.Номенклатура" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Категория">
+              <PropertyRef Name="ID_Категории" />
+            </Principal>
+            <Dependent Role="Номенклатура">
+              <PropertyRef Name="ID_Категории" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Пользоват__ID_Ро__60A75C0F">
+          <End Role="Роли" Type="Self.Роли" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Роли">
+              <PropertyRef Name="ID_Роли" />
+            </Principal>
+            <Dependent Role="Пользователи">
+              <PropertyRef Name="ID_Роли" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Продажи__ID_Зака__787EE5A0">
+          <End Role="Заказы" Type="Self.Заказы" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказы">
+              <PropertyRef Name="ID_Заказа" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="ID_Заказа" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Состав_за__ID_За__72C60C4A">
+          <End Role="Заказы" Type="Self.Заказы" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Состав_заказа" Type="Self.Состав_заказа" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказы">
+              <PropertyRef Name="ID_Заказа" />
+            </Principal>
+            <Dependent Role="Состав_заказа">
+              <PropertyRef Name="ID_Заказа" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Состав_за__ID_Но__73BA3083">
+          <End Role="Номенклатура" Type="Self.Номенклатура" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Состав_заказа" Type="Self.Состав_заказа" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Номенклатура">
+              <PropertyRef Name="ID_Номенклатуры" />
+            </Principal>
+            <Dependent Role="Состав_заказа">
+              <PropertyRef Name="ID_Номенклатуры" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище ПекарняModelContainer">
+          <EntitySet Name="Единица_измерения" EntityType="Self.Единица_измерения" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Заказы" EntityType="Self.Заказы" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Категория" EntityType="Self.Категория" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Номенклатура" EntityType="Self.Номенклатура" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Продажи" EntityType="Self.Продажи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Роли" EntityType="Self.Роли" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Состав_заказа" EntityType="Self.Состав_заказа" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Заказы__ID_Польз__6FE99F9F" Association="Self.FK__Заказы__ID_Польз__6FE99F9F">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Заказы" EntitySet="Заказы" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Номенклат__ID_Ед__6A30C649" Association="Self.FK__Номенклат__ID_Ед__6A30C649">
+            <End Role="Единица_измерения" EntitySet="Единица_измерения" />
+            <End Role="Номенклатура" EntitySet="Номенклатура" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Номенклат__ID_Ка__693CA210" Association="Self.FK__Номенклат__ID_Ка__693CA210">
+            <End Role="Категория" EntitySet="Категория" />
+            <End Role="Номенклатура" EntitySet="Номенклатура" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Пользоват__ID_Ро__60A75C0F" Association="Self.FK__Пользоват__ID_Ро__60A75C0F">
+            <End Role="Роли" EntitySet="Роли" />
+            <End Role="Пользователи" EntitySet="Пользователи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Продажи__ID_Зака__787EE5A0" Association="Self.FK__Продажи__ID_Зака__787EE5A0">
+            <End Role="Заказы" EntitySet="Заказы" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Состав_за__ID_За__72C60C4A" Association="Self.FK__Состав_за__ID_За__72C60C4A">
+            <End Role="Заказы" EntitySet="Заказы" />
+            <End Role="Состав_заказа" EntitySet="Состав_заказа" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Состав_за__ID_Но__73BA3083" Association="Self.FK__Состав_за__ID_Но__73BA3083">
+            <End Role="Номенклатура" EntitySet="Номенклатура" />
+            <End Role="Состав_заказа" EntitySet="Состав_заказа" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ПекарняModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ПекарняEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ПекарняModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ПекарняModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Единица_измерения" EntityType="ПекарняModel.Единица_измерения" />
+          <EntitySet Name="Заказы" EntityType="ПекарняModel.Заказы" />
+          <EntitySet Name="Категория" EntityType="ПекарняModel.Категория" />
+          <EntitySet Name="Номенклатура" EntityType="ПекарняModel.Номенклатура" />
+          <EntitySet Name="Пользователи" EntityType="ПекарняModel.Пользователи" />
+          <EntitySet Name="Продажи" EntityType="ПекарняModel.Продажи" />
+          <EntitySet Name="Роли" EntityType="ПекарняModel.Роли" />
+          <EntitySet Name="Состав_заказа" EntityType="ПекарняModel.Состав_заказа" />
+          <AssociationSet Name="FK__Номенклат__ID_Ед__6A30C649" Association="ПекарняModel.FK__Номенклат__ID_Ед__6A30C649">
+            <End Role="Единица_измерения" EntitySet="Единица_измерения" />
+            <End Role="Номенклатура" EntitySet="Номенклатура" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Заказы__ID_Польз__6FE99F9F" Association="ПекарняModel.FK__Заказы__ID_Польз__6FE99F9F">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Заказы" EntitySet="Заказы" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Продажи__ID_Зака__787EE5A0" Association="ПекарняModel.FK__Продажи__ID_Зака__787EE5A0">
+            <End Role="Заказы" EntitySet="Заказы" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Состав_за__ID_За__72C60C4A" Association="ПекарняModel.FK__Состав_за__ID_За__72C60C4A">
+            <End Role="Заказы" EntitySet="Заказы" />
+            <End Role="Состав_заказа" EntitySet="Состав_заказа" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Номенклат__ID_Ка__693CA210" Association="ПекарняModel.FK__Номенклат__ID_Ка__693CA210">
+            <End Role="Категория" EntitySet="Категория" />
+            <End Role="Номенклатура" EntitySet="Номенклатура" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Состав_за__ID_Но__73BA3083" Association="ПекарняModel.FK__Состав_за__ID_Но__73BA3083">
+            <End Role="Номенклатура" EntitySet="Номенклатура" />
+            <End Role="Состав_заказа" EntitySet="Состав_заказа" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Пользоват__ID_Ро__60A75C0F" Association="ПекарняModel.FK__Пользоват__ID_Ро__60A75C0F">
+            <End Role="Роли" EntitySet="Роли" />
+            <End Role="Пользователи" EntitySet="Пользователи" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Единица_измерения">
+          <Key>
+            <PropertyRef Name="ID_Единицы" />
+          </Key>
+          <Property Name="ID_Единицы" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Номенклатура" Relationship="ПекарняModel.FK__Номенклат__ID_Ед__6A30C649" FromRole="Единица_измерения" ToRole="Номенклатура" />
+        </EntityType>
+        <EntityType Name="Заказы">
+          <Key>
+            <PropertyRef Name="ID_Заказа" />
+          </Key>
+          <Property Name="ID_Заказа" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Пользователя" Type="Int32" Nullable="false" />
+          <Property Name="Дата_заказа" Type="DateTime" Precision="3" />
+          <Property Name="Статус" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Пользователи" Relationship="ПекарняModel.FK__Заказы__ID_Польз__6FE99F9F" FromRole="Заказы" ToRole="Пользователи" />
+          <NavigationProperty Name="Продажи" Relationship="ПекарняModel.FK__Продажи__ID_Зака__787EE5A0" FromRole="Заказы" ToRole="Продажи" />
+          <NavigationProperty Name="Состав_заказа" Relationship="ПекарняModel.FK__Состав_за__ID_За__72C60C4A" FromRole="Заказы" ToRole="Состав_заказа" />
+          <Property Name="Сумма" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Категория">
+          <Key>
+            <PropertyRef Name="ID_Категории" />
+          </Key>
+          <Property Name="ID_Категории" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Номенклатура" Relationship="ПекарняModel.FK__Номенклат__ID_Ка__693CA210" FromRole="Категория" ToRole="Номенклатура" />
+        </EntityType>
+        <EntityType Name="Номенклатура">
+          <Key>
+            <PropertyRef Name="ID_Номенклатуры" />
+          </Key>
+          <Property Name="ID_Номенклатуры" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Цена_за_единицу" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="ID_Категории" Type="Int32" Nullable="false" />
+          <Property Name="ID_Единицы" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Единица_измерения" Relationship="ПекарняModel.FK__Номенклат__ID_Ед__6A30C649" FromRole="Номенклатура" ToRole="Единица_измерения" />
+          <NavigationProperty Name="Категория" Relationship="ПекарняModel.FK__Номенклат__ID_Ка__693CA210" FromRole="Номенклатура" ToRole="Категория" />
+          <NavigationProperty Name="Состав_заказа" Relationship="ПекарняModel.FK__Состав_за__ID_Но__73BA3083" FromRole="Номенклатура" ToRole="Состав_заказа" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="ID_Пользователя" />
+          </Key>
+          <Property Name="ID_Пользователя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Имя" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Логин" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Пароль_Хэш" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Роли" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Заказы" Relationship="ПекарняModel.FK__Заказы__ID_Польз__6FE99F9F" FromRole="Пользователи" ToRole="Заказы" />
+          <NavigationProperty Name="Роли" Relationship="ПекарняModel.FK__Пользоват__ID_Ро__60A75C0F" FromRole="Пользователи" ToRole="Роли" />
+        </EntityType>
+        <EntityType Name="Продажи">
+          <Key>
+            <PropertyRef Name="ID_Продажи" />
+          </Key>
+          <Property Name="ID_Продажи" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Заказа" Type="Int32" Nullable="false" />
+          <Property Name="Дата_продажи" Type="DateTime" Precision="3" />
+          <Property Name="Общая_сумма" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Заказы" Relationship="ПекарняModel.FK__Продажи__ID_Зака__787EE5A0" FromRole="Продажи" ToRole="Заказы" />
+        </EntityType>
+        <EntityType Name="Роли">
+          <Key>
+            <PropertyRef Name="ID_Роли" />
+          </Key>
+          <Property Name="ID_Роли" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Пользователи" Relationship="ПекарняModel.FK__Пользоват__ID_Ро__60A75C0F" FromRole="Роли" ToRole="Пользователи" />
+        </EntityType>
+        <EntityType Name="Состав_заказа">
+          <Key>
+            <PropertyRef Name="ID_Состава" />
+          </Key>
+          <Property Name="ID_Состава" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Заказа" Type="Int32" Nullable="false" />
+          <Property Name="ID_Номенклатуры" Type="Int32" Nullable="false" />
+          <Property Name="Количество" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Цена_на_момент_заказа" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Заказы" Relationship="ПекарняModel.FK__Состав_за__ID_За__72C60C4A" FromRole="Состав_заказа" ToRole="Заказы" />
+          <NavigationProperty Name="Номенклатура" Relationship="ПекарняModel.FK__Состав_за__ID_Но__73BA3083" FromRole="Состав_заказа" ToRole="Номенклатура" />
+          <Property Name="Сумма_позиций" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+        </EntityType>
+        <Association Name="FK__Номенклат__ID_Ед__6A30C649">
+          <End Type="ПекарняModel.Единица_измерения" Role="Единица_измерения" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Номенклатура" Role="Номенклатура" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Единица_измерения">
+              <PropertyRef Name="ID_Единицы" />
+            </Principal>
+            <Dependent Role="Номенклатура">
+              <PropertyRef Name="ID_Единицы" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Заказы__ID_Польз__6FE99F9F">
+          <End Type="ПекарняModel.Пользователи" Role="Пользователи" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Заказы" Role="Заказы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="ID_Пользователя" />
+            </Principal>
+            <Dependent Role="Заказы">
+              <PropertyRef Name="ID_Пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Продажи__ID_Зака__787EE5A0">
+          <End Type="ПекарняModel.Заказы" Role="Заказы" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Продажи" Role="Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказы">
+              <PropertyRef Name="ID_Заказа" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="ID_Заказа" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Состав_за__ID_За__72C60C4A">
+          <End Type="ПекарняModel.Заказы" Role="Заказы" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Состав_заказа" Role="Состав_заказа" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказы">
+              <PropertyRef Name="ID_Заказа" />
+            </Principal>
+            <Dependent Role="Состав_заказа">
+              <PropertyRef Name="ID_Заказа" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Номенклат__ID_Ка__693CA210">
+          <End Type="ПекарняModel.Категория" Role="Категория" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Номенклатура" Role="Номенклатура" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Категория">
+              <PropertyRef Name="ID_Категории" />
+            </Principal>
+            <Dependent Role="Номенклатура">
+              <PropertyRef Name="ID_Категории" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Состав_за__ID_Но__73BA3083">
+          <End Type="ПекарняModel.Номенклатура" Role="Номенклатура" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Состав_заказа" Role="Состав_заказа" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Номенклатура">
+              <PropertyRef Name="ID_Номенклатуры" />
+            </Principal>
+            <Dependent Role="Состав_заказа">
+              <PropertyRef Name="ID_Номенклатуры" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Пользоват__ID_Ро__60A75C0F">
+          <End Type="ПекарняModel.Роли" Role="Роли" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ПекарняModel.Пользователи" Role="Пользователи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Роли">
+              <PropertyRef Name="ID_Роли" />
+            </Principal>
+            <Dependent Role="Пользователи">
+              <PropertyRef Name="ID_Роли" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ПекарняModelContainer" CdmEntityContainer="ПекарняEntities">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище ПекарняModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище ПекарняModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище ПекарняModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище ПекарняModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ПекарняModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище ПекарняModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ПекарняModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище ПекарняModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище ПекарняModel.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Единица_измерения">
+            <EntityTypeMapping TypeName="ПекарняModel.Единица_измерения">
+              <MappingFragment StoreEntitySet="Единица_измерения">
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ID_Единицы" ColumnName="ID_Единицы" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Заказы">
+            <EntityTypeMapping TypeName="ПекарняModel.Заказы">
+              <MappingFragment StoreEntitySet="Заказы">
+                <ScalarProperty Name="Сумма" ColumnName="Сумма" />
+                <ScalarProperty Name="Статус" ColumnName="Статус" />
+                <ScalarProperty Name="Дата_заказа" ColumnName="Дата_заказа" />
+                <ScalarProperty Name="ID_Пользователя" ColumnName="ID_Пользователя" />
+                <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Категория">
+            <EntityTypeMapping TypeName="ПекарняModel.Категория">
+              <MappingFragment StoreEntitySet="Категория">
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+                <ScalarProperty Name="ID_Категории" ColumnName="ID_Категории" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Номенклатура">
+            <EntityTypeMapping TypeName="ПекарняModel.Номенклатура">
+              <MappingFragment StoreEntitySet="Номенклатура">
+                <ScalarProperty Name="ID_Единицы" ColumnName="ID_Единицы" />
+                <ScalarProperty Name="ID_Категории" ColumnName="ID_Категории" />
+                <ScalarProperty Name="Цена_за_единицу" ColumnName="Цена_за_единицу" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ID_Номенклатуры" ColumnName="ID_Номенклатуры" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пользователи">
+            <EntityTypeMapping TypeName="ПекарняModel.Пользователи">
+              <MappingFragment StoreEntitySet="Пользователи">
+                <ScalarProperty Name="ID_Роли" ColumnName="ID_Роли" />
+                <ScalarProperty Name="Пароль_Хэш" ColumnName="Пароль_Хэш" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="ID_Пользователя" ColumnName="ID_Пользователя" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Продажи">
+            <EntityTypeMapping TypeName="ПекарняModel.Продажи">
+              <MappingFragment StoreEntitySet="Продажи">
+                <ScalarProperty Name="Общая_сумма" ColumnName="Общая_сумма" />
+                <ScalarProperty Name="Дата_продажи" ColumnName="Дата_продажи" />
+                <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+                <ScalarProperty Name="ID_Продажи" ColumnName="ID_Продажи" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Роли">
+            <EntityTypeMapping TypeName="ПекарняModel.Роли">
+              <MappingFragment StoreEntitySet="Роли">
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ID_Роли" ColumnName="ID_Роли" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Состав_заказа">
+            <EntityTypeMapping TypeName="ПекарняModel.Состав_заказа">
+              <MappingFragment StoreEntitySet="Состав_заказа">
+                <ScalarProperty Name="Сумма_позиций" ColumnName="Сумма_позиций" />
+                <ScalarProperty Name="Цена_на_момент_заказа" ColumnName="Цена_на_момент_заказа" />
+                <ScalarProperty Name="Количество" ColumnName="Количество" />
+                <ScalarProperty Name="ID_Номенклатуры" ColumnName="ID_Номенклатуры" />
+                <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+                <ScalarProperty Name="ID_Состава" ColumnName="ID_Состава" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BakeryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ProductBatches">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="BatchNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateProduced" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__ProductBa__Produ__48CFD27E" FromRole="ProductBatches" ToRole="Products" />
+    <NavigationProperty Name="Sales" Relationship="Self.FK__Sales__BatchId__5070F446" FromRole="ProductBatches" ToRole="Sales" />
+    <NavigationProperty Name="Shipments" Relationship="Self.FK__Shipments__Batch__59063A47" FromRole="ProductBatches" ToRole="Shipments" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Weight" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="ProductBatches" Relationship="Self.FK__ProductBa__Produ__48CFD27E" FromRole="Products" ToRole="ProductBatches" />
+    <NavigationProperty Name="Recipes" Relationship="Self.FK__Recipes__Product__4CA06362" FromRole="Products" ToRole="Recipes" />
+  </EntityType>
+  <EntityType Name="RawMaterialReceipts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RawMaterialId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ReceivedBy" Type="Int32" Nullable="false" />
+    <Property Name="DateReceived" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="RawMaterials" Relationship="Self.FK__RawMateri__RawMa__5441852A" FromRole="RawMaterialReceipts" ToRole="RawMaterials" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__RawMateri__Recei__5535A963" FromRole="RawMaterialReceipts" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="RawMaterials">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SupplierId" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DateReceived" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ReceivedQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="RawMaterialReceipts" Relationship="Self.FK__RawMateri__RawMa__5441852A" FromRole="RawMaterials" ToRole="RawMaterialReceipts" />
+    <NavigationProperty Name="Suppliers" Relationship="Self.FK__RawMateri__Suppl__412EB0B6" FromRole="RawMaterials" ToRole="Suppliers" />
+    <NavigationProperty Name="Recipes" Relationship="Self.FK__Recipes__Ingredi__4D94879B" FromRole="RawMaterials" ToRole="Recipes" />
+  </EntityType>
+  <EntityType Name="Recipes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="IngredientId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Recipes__Product__4CA06362" FromRole="Recipes" ToRole="Products" />
+    <NavigationProperty Name="RawMaterials" Relationship="Self.FK__Recipes__Ingredi__4D94879B" FromRole="Recipes" ToRole="RawMaterials" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Users__RoleId__3B75D760" FromRole="Roles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Sales">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BatchId" Type="Int32" Nullable="false" />
+    <Property Name="QuantitySold" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DateSold" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ProductBatches" Relationship="Self.FK__Sales__BatchId__5070F446" FromRole="Sales" ToRole="ProductBatches" />
+  </EntityType>
+  <EntityType Name="Shipments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BatchId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="ShippedBy" Type="Int32" Nullable="false" />
+    <Property Name="DateShipped" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ProductBatches" Relationship="Self.FK__Shipments__Batch__59063A47" FromRole="Shipments" ToRole="ProductBatches" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Shipments__Shipp__59FA5E80" FromRole="Shipments" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Suppliers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="RawMaterials" Relationship="Self.FK__RawMateri__Suppl__412EB0B6" FromRole="Suppliers" ToRole="RawMaterials" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RawMaterialReceipts" Relationship="Self.FK__RawMateri__Recei__5535A963" FromRole="Users" ToRole="RawMaterialReceipts" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK__Users__RoleId__3B75D760" FromRole="Users" ToRole="Roles" />
+    <NavigationProperty Name="Shipments" Relationship="Self.FK__Shipments__Shipp__59FA5E80" FromRole="Users" ToRole="Shipments" />
+  </EntityType>
+  <Association Name="FK__ProductBa__Produ__48CFD27E">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="ProductBatches" Type="Self.ProductBatches" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductBatches">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Sales__BatchId__5070F446">
+    <End Role="ProductBatches" Type="Self.ProductBatches" Multiplicity="1" />
+    <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductBatches">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sales">
+        <PropertyRef Name="BatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Shipments__Batch__59063A47">
+    <End Role="ProductBatches" Type="Self.ProductBatches" Multiplicity="1" />
+    <End Role="Shipments" Type="Self.Shipments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductBatches">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shipments">
+        <PropertyRef Name="BatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Recipes__Product__4CA06362">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Recipes" Type="Self.Recipes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Recipes">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RawMateri__RawMa__5441852A">
+    <End Role="RawMaterials" Type="Self.RawMaterials" Multiplicity="1" />
+    <End Role="RawMaterialReceipts" Type="Self.RawMaterialReceipts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RawMaterials">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RawMaterialReceipts">
+        <PropertyRef Name="RawMaterialId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RawMateri__Recei__5535A963">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="RawMaterialReceipts" Type="Self.RawMaterialReceipts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RawMaterialReceipts">
+        <PropertyRef Name="ReceivedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RawMateri__Suppl__412EB0B6">
+    <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
+    <End Role="RawMaterials" Type="Self.RawMaterials" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RawMaterials">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Recipes__Ingredi__4D94879B">
+    <End Role="RawMaterials" Type="Self.RawMaterials" Multiplicity="1" />
+    <End Role="Recipes" Type="Self.Recipes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RawMaterials">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Recipes">
+        <PropertyRef Name="IngredientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Users__RoleId__3B75D760">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Shipments__Shipp__59FA5E80">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Shipments" Type="Self.Shipments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shipments">
+        <PropertyRef Name="ShippedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BakeryDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ProductBatches" EntityType="Self.ProductBatches" />
+    <EntitySet Name="Products" EntityType="Self.Products" />
+    <EntitySet Name="RawMaterialReceipts" EntityType="Self.RawMaterialReceipts" />
+    <EntitySet Name="RawMaterials" EntityType="Self.RawMaterials" />
+    <EntitySet Name="Recipes" EntityType="Self.Recipes" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="Sales" EntityType="Self.Sales" />
+    <EntitySet Name="Shipments" EntityType="Self.Shipments" />
+    <EntitySet Name="Suppliers" EntityType="Self.Suppliers" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK__ProductBa__Produ__48CFD27E" Association="Self.FK__ProductBa__Produ__48CFD27E">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductBatches" EntitySet="ProductBatches" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Sales__BatchId__5070F446" Association="Self.FK__Sales__BatchId__5070F446">
+      <End Role="ProductBatches" EntitySet="ProductBatches" />
+      <End Role="Sales" EntitySet="Sales" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Shipments__Batch__59063A47" Association="Self.FK__Shipments__Batch__59063A47">
+      <End Role="ProductBatches" EntitySet="ProductBatches" />
+      <End Role="Shipments" EntitySet="Shipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Recipes__Product__4CA06362" Association="Self.FK__Recipes__Product__4CA06362">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Recipes" EntitySet="Recipes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RawMateri__RawMa__5441852A" Association="Self.FK__RawMateri__RawMa__5441852A">
+      <End Role="RawMaterials" EntitySet="RawMaterials" />
+      <End Role="RawMaterialReceipts" EntitySet="RawMaterialReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RawMateri__Recei__5535A963" Association="Self.FK__RawMateri__Recei__5535A963">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="RawMaterialReceipts" EntitySet="RawMaterialReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RawMateri__Suppl__412EB0B6" Association="Self.FK__RawMateri__Suppl__412EB0B6">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="RawMaterials" EntitySet="RawMaterials" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Recipes__Ingredi__4D94879B" Association="Self.FK__Recipes__Ingredi__4D94879B">
+      <End Role="RawMaterials" EntitySet="RawMaterials" />
+      <End Role="Recipes" EntitySet="Recipes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Users__RoleId__3B75D760" Association="Self.FK__Users__RoleId__3B75D760">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Shipments__Shipp__59FA5E80" Association="Self.FK__Shipments__Shipp__59FA5E80">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Shipments" EntitySet="Shipments" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(BakeryDBModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(BakeryDBModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

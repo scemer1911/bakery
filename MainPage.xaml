@@ -1,0 +1,23 @@
+﻿<Page x:Class="Bakery.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Main Page">
+
+    <Grid>
+        <!-- Панель навигации -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ListView для навигации -->
+        <ListView x:Name="MenuListView" Grid.Column="0" MouseDoubleClick="MenuListView_MouseDoubleClick">
+            <ListViewItem x:Name="UsersItem" Content="Пользователи"/>
+            <ListViewItem x:Name="OrdersItem" Content="Заказы"/>
+            <ListViewItem x:Name="CreateOrderPage" Content="Создать заказ"/>
+            <ListViewItem Content="Выход"/>
+        </ListView>
+        <!-- Контентная область -->
+        <Frame x:Name="ContentFrame" Grid.Column="1" Margin="10"/>
+    </Grid>
+</Page>

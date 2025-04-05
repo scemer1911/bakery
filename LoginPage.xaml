@@ -1,0 +1,17 @@
+﻿<Page x:Class="Bakery.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Login Page">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBlock Text="Вход в систему" HorizontalAlignment="Center" Margin="0,0,0,25"/>
+            <TextBlock Text="Логин"/>
+            <TextBox x:Name="UsernameTextBox"/>
+            <TextBlock Text="Пароль"/>
+            <PasswordBox x:Name="PasswordBox"/>
+            <Button Content="Войти" Click="LoginButton_Click" Margin="0,15,0,0"/>
+            <TextBlock x:Name="ErrorTextBlock" Foreground="Red" Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</Page>

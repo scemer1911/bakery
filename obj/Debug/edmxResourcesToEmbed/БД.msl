@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище ПекарняModelContainer" CdmEntityContainer="ПекарняEntities">
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище ПекарняModel.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище ПекарняModel.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище ПекарняModel.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище ПекарняModel.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ПекарняModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище ПекарняModel.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ПекарняModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище ПекарняModel.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище ПекарняModel.sp_upgraddiagrams" />
+    <EntitySetMapping Name="Единица_измерения">
+      <EntityTypeMapping TypeName="ПекарняModel.Единица_измерения">
+        <MappingFragment StoreEntitySet="Единица_измерения">
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="ID_Единицы" ColumnName="ID_Единицы" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Заказы">
+      <EntityTypeMapping TypeName="ПекарняModel.Заказы">
+        <MappingFragment StoreEntitySet="Заказы">
+          <ScalarProperty Name="Сумма" ColumnName="Сумма" />
+          <ScalarProperty Name="Статус" ColumnName="Статус" />
+          <ScalarProperty Name="Дата_заказа" ColumnName="Дата_заказа" />
+          <ScalarProperty Name="ID_Пользователя" ColumnName="ID_Пользователя" />
+          <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Категория">
+      <EntityTypeMapping TypeName="ПекарняModel.Категория">
+        <MappingFragment StoreEntitySet="Категория">
+          <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+          <ScalarProperty Name="ID_Категории" ColumnName="ID_Категории" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Номенклатура">
+      <EntityTypeMapping TypeName="ПекарняModel.Номенклатура">
+        <MappingFragment StoreEntitySet="Номенклатура">
+          <ScalarProperty Name="ID_Единицы" ColumnName="ID_Единицы" />
+          <ScalarProperty Name="ID_Категории" ColumnName="ID_Категории" />
+          <ScalarProperty Name="Цена_за_единицу" ColumnName="Цена_за_единицу" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="ID_Номенклатуры" ColumnName="ID_Номенклатуры" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Пользователи">
+      <EntityTypeMapping TypeName="ПекарняModel.Пользователи">
+        <MappingFragment StoreEntitySet="Пользователи">
+          <ScalarProperty Name="ID_Роли" ColumnName="ID_Роли" />
+          <ScalarProperty Name="Пароль_Хэш" ColumnName="Пароль_Хэш" />
+          <ScalarProperty Name="Логин" ColumnName="Логин" />
+          <ScalarProperty Name="Имя" ColumnName="Имя" />
+          <ScalarProperty Name="ID_Пользователя" ColumnName="ID_Пользователя" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Продажи">
+      <EntityTypeMapping TypeName="ПекарняModel.Продажи">
+        <MappingFragment StoreEntitySet="Продажи">
+          <ScalarProperty Name="Общая_сумма" ColumnName="Общая_сумма" />
+          <ScalarProperty Name="Дата_продажи" ColumnName="Дата_продажи" />
+          <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+          <ScalarProperty Name="ID_Продажи" ColumnName="ID_Продажи" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Роли">
+      <EntityTypeMapping TypeName="ПекарняModel.Роли">
+        <MappingFragment StoreEntitySet="Роли">
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="ID_Роли" ColumnName="ID_Роли" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Состав_заказа">
+      <EntityTypeMapping TypeName="ПекарняModel.Состав_заказа">
+        <MappingFragment StoreEntitySet="Состав_заказа">
+          <ScalarProperty Name="Сумма_позиций" ColumnName="Сумма_позиций" />
+          <ScalarProperty Name="Цена_на_момент_заказа" ColumnName="Цена_на_момент_заказа" />
+          <ScalarProperty Name="Количество" ColumnName="Количество" />
+          <ScalarProperty Name="ID_Номенклатуры" ColumnName="ID_Номенклатуры" />
+          <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+          <ScalarProperty Name="ID_Состава" ColumnName="ID_Состава" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
